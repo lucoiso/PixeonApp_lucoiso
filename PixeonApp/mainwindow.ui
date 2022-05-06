@@ -17,7 +17,18 @@
    <iconset resource="PixeonResources.qrc">
     <normaloff>:/Pixeon/Assets/PixeonLogo.jpeg</normaloff>:/Pixeon/Assets/PixeonLogo.jpeg</iconset>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>40</y>
+      <width>500</width>
+      <height>500</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources>
   <include location="PixeonResources.qrc"/>

@@ -2,7 +2,9 @@
 #include "pixeontoolbar.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
-#include <QStandardPaths>>
+#include <QStandardPaths>
+#include <QGraphicsView>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,9 +22,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::AddNewImage()
 {
-    // TO DO
+    // Work in Progress
+
     const QString PicturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    /*const QString FileName = */QFileDialog::getOpenFileName(this, QString(), PicturesFolder, "Image File (*.bmp *.png *.jpeg)");
+    const QString FileName = QFileDialog::getOpenFileName(this, QString(), PicturesFolder, "Image File (*.bmp *.png *.jpeg)");
+
+    if (FileName.count() != 0)
+    {
+        QPixmap NewImage(FileName);
+        QGraphicsScene* NewScene = new QGraphicsScene(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
+        NewScene->addPixmap(NewImage.scaled(QSize(ui->graphicsView->width(), ui->graphicsView->height())));
+        ui->graphicsView->setScene(NewScene);
+    }
 }
 
 void MainWindow::RemoveSelectedImage()
