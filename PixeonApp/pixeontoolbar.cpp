@@ -6,7 +6,10 @@ PixeonToolbar::PixeonToolbar(const QString &title, QWidget *parent)
 {
     const QString Prefix = ":/Pixeon/Assets/";
 
-    addAction(new QAction(QIcon::fromTheme((Prefix + "Add.png")), "Add Image"));
+    QAction* AddImage = new QAction(QIcon::fromTheme((Prefix + "Add.png")), "Add Image");
+    QObject::connect(AddImage, &QAction::triggered, GetParentAsWindow(), &MainWindow::AddNewImage);
+
+    addAction(AddImage);
     addAction(new QAction(QIcon::fromTheme((Prefix + "Subtract.png")), "Remove Image"));
     addSeparator();
     addAction(new QAction(QIcon::fromTheme((Prefix + "ZoomIn.png")), "Zoom In"));

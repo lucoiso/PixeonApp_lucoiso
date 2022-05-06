@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "pixeontoolbar.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
+#include <QStandardPaths>>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,6 +21,8 @@ MainWindow::~MainWindow()
 void MainWindow::AddNewImage()
 {
     // TO DO
+    const QString PicturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    /*const QString FileName = */QFileDialog::getOpenFileName(this, QString(), PicturesFolder, "Image File (*.bmp *.png *.jpeg)");
 }
 
 void MainWindow::RemoveSelectedImage()
