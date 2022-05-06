@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/Pixeon">
+        <file>Assets/PixeonLogo.jpeg</file>
+        <file>Assets/Add.png</file>
+        <file>Assets/Subtract.png</file>
+        <file>Assets/ZoomIn.png</file>
+        <file>Assets/ZoomOut.png</file>
+    </qresource>
+</RCC>
