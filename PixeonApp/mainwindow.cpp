@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "pixeontoolbar.h"
 #include "ui_mainwindow.h"
+
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QGraphicsView>
-#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
