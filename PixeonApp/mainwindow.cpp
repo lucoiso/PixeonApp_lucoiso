@@ -15,3 +15,19 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::AddNewImage()
+{
+    // TO DO
+}
+
+void MainWindow::RemoveSelectedImage()
+{
+    // TO DO
+}
+
+QBitmap* MainWindow::GetSelectedImage()
+{
+    // TO DO
+    return nullptr;
+}
