@@ -14,8 +14,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void AddImage();
-    void RemoveImage();
+private slots:
+    void on_AddImage_triggered();
 
 private:
     Ui::MainWindow *ui;

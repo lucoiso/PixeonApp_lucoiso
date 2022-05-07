@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     const auto LayoutCreator = [&] () -> QVBoxLayout*
         {
             CustomView* NewCustomView = new CustomView(this);
-            QVBoxLayout* BoxLayout = new QVBoxLayout(NewCustomView);
+            QVBoxLayout* BoxLayout = new QVBoxLayout();
             BoxLayout->addWidget(NewCustomView);
 
             return BoxLayout;
@@ -33,13 +33,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::AddImage()
+void MainWindow::on_AddImage_triggered()
 {
-    CustomView* NewCustomView = new CustomView(ui->centralwidget);
-    ui->tabWidget->addTab(NewCustomView, QString());
+    ui->tabWidget->addTab(new CustomView(this), QString::number(ui->tabWidget->count() + 1));
 }
 
-void MainWindow::RemoveImage()
-{
-
-}
