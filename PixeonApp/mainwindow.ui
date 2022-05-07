@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Desafio Pixeon: Lucas Vilas-Boas</string>
+   <string>Pixeon Challenge: Lucas Vilas-Boas</string>
   </property>
   <property name="windowIcon">
    <iconset resource="PixeonResources.qrc">
