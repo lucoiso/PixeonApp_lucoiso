@@ -127,7 +127,7 @@ void CustomView::ContrastDown()
     UpdatePixelColors(COLORUPDATE);
 }
 
-void CustomView::UpdatePixelColors(std::function<void(QImage&, const int, const int)> Predicate)
+void CustomView::UpdatePixelColors(std::function<void(QImage&, const int, const int)> Function)
 {
     QImage NewImage = OriginalImage.convertToFormat(QImage::Format_ARGB32);
     if (!NewImage.isNull())
@@ -136,7 +136,7 @@ void CustomView::UpdatePixelColors(std::function<void(QImage&, const int, const 
         {
             for (int x = 0; x < NewImage.width(); ++x)
             {
-                Predicate(NewImage, x, y);
+                Function(NewImage, x, y);
             }
         }
 
