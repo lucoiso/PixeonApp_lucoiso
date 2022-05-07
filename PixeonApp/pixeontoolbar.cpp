@@ -25,6 +25,14 @@ PixeonToolbar::PixeonToolbar(const QString &title, QWidget *parent)
     QObject::connect(ZoomOut, &QAction::triggered, GetParentAsCustomView(), &CustomView::ZoomOut);
     addAction(ZoomOut);
 
+    QAction* RotateLeft = new QAction(QIcon::fromTheme((Prefix + "RotateLeft.png")), "Rotate Left");
+    QObject::connect(RotateLeft, &QAction::triggered, GetParentAsCustomView(), &CustomView::RotateLeft);
+    addAction(RotateLeft);
+
+    QAction* RotateRight = new QAction(QIcon::fromTheme((Prefix + "RotateRight.png")), "Rotate Right");
+    QObject::connect(RotateRight, &QAction::triggered, GetParentAsCustomView(), &CustomView::RotateRight);
+    addAction(RotateRight);
+
     setOrientation(Qt::Vertical);
 }
 

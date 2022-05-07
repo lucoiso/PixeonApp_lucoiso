@@ -57,3 +57,14 @@ void CustomView::ZoomOut()
 {
     ui->graphicsView->scale(0.75f, 0.75f);
 }
+
+void CustomView::RotateLeft()
+{
+    ui->graphicsView->rotate(-90);
+}
+
+void CustomView::RotateRight()
+{
+    ui->graphicsView->rotate(90);
+}
+

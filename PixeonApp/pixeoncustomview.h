@@ -21,6 +21,9 @@ public:
     void ZoomIn();
     void ZoomOut();
 
+    void RotateLeft();
+    void RotateRight();
+
 private:
     Ui::CustomView *ui;
 };

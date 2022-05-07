@@ -6,5 +6,7 @@
         <file>Assets/ZoomIn.png</file>
         <file>Assets/ZoomOut.png</file>
         <file>Assets/Placeholder.jpeg</file>
+        <file>Assets/RotateLeft.png</file>
+        <file>Assets/RotateRight.png</file>
     </qresource>
 </RCC>
