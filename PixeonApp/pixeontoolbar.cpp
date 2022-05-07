@@ -47,11 +47,11 @@ PixeonToolbar::PixeonToolbar(const QString& title, QWidget* parent)
 
     addSeparator();
 
-    QAction* ConstrastUp = new QAction(QIcon::fromTheme((Prefix + "ContrastUp.png")), "Constrast Up");
+    QAction* ConstrastUp = new QAction(QIcon::fromTheme((Prefix + "ContrastUp.png")), "Contrast Up");
     QObject::connect(ConstrastUp, &QAction::triggered, GetParentAsCustomView(), &CustomView::ContrastUp);
     addAction(ConstrastUp);
 
-    QAction* ConstrastDown = new QAction(QIcon::fromTheme((Prefix + "ContrastDown.png")), "Constrast Down");
+    QAction* ConstrastDown = new QAction(QIcon::fromTheme((Prefix + "ContrastDown.png")), "Contrast Down");
     QObject::connect(ConstrastDown, &QAction::triggered, GetParentAsCustomView(), &CustomView::ContrastDown);
     addAction(ConstrastDown);
 
