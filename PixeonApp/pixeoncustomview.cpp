@@ -91,6 +91,42 @@ void CustomView::RotateRight()
     }
 }
 
+#define COLORUPDATE \
+    [&] (QImage& Image, const int x, const int y) -> void \
+    { \
+        QColor NewPixelColor = Image.pixelColor(x, y); \
+        int Red, Green, Blue; \
+        NewPixelColor.getRgb(&Red, &Green, &Blue); \
+        const QRgb NewRgb = qRgb(std::clamp(Red + CurrentContrastFactor, 0, 255), \
+                                 std::clamp(Green + CurrentContrastFactor, 0, 255), \
+                                 std::clamp(Blue + CurrentContrastFactor, 0, 255)); \
+        Image.setPixelColor(x, y, QColor(NewRgb).lighter(CurrentBrightnessFactor)); \
+    } \
+
+void CustomView::BrightnessUp()
+{
+    CurrentBrightnessFactor += 5;
+    UpdatePixelColors(COLORUPDATE);
+}
+
+void CustomView::BrightnessDown()
+{
+    CurrentBrightnessFactor -= 5;
+    UpdatePixelColors(COLORUPDATE);
+}
+
+void CustomView::ContrastUp()
+{
+    CurrentContrastFactor -= 5;
+    UpdatePixelColors(COLORUPDATE);
+}
+
+void CustomView::ContrastDown()
+{
+    CurrentContrastFactor += 5;
+    UpdatePixelColors(COLORUPDATE);
+}
+
 void CustomView::UpdatePixelColors(std::function<void(QImage&, const int, const int)> Predicate)
 {
     QImage NewImage = OriginalImage.convertToFormat(QImage::Format_ARGB32);
@@ -106,47 +142,4 @@ void CustomView::UpdatePixelColors(std::function<void(QImage&, const int, const 
 
         UpdateGraphicsView(QPixmap::fromImage(NewImage));
     }
-}
-
-#define BRIGHTNESS_LAMBDA \
-    [&] (QImage& Image, const int x, const int y) -> void \
-    { \
-        Image.setPixelColor(x, y, Image.pixelColor(x, y).lighter(CurrentBrightnessFactor)); \
-    } \
-
-void CustomView::BrightnessUp()
-{
-    CurrentBrightnessFactor += 5;
-    UpdatePixelColors(BRIGHTNESS_LAMBDA);
-}
-
-void CustomView::BrightnessDown()
-{
-    CurrentBrightnessFactor -= 5;
-    ;
-    UpdatePixelColors(BRIGHTNESS_LAMBDA);
-}
-
-#define CONTRAST_LAMBDA \
-    [&] (QImage& Image, const int x, const int y) -> void \
-    { \
-        QColor NewPixelColor = Image.pixelColor(x, y); \
-        int Red, Green, Blue; \
-        NewPixelColor.getRgb(&Red, &Green, &Blue); \
-        const QRgb NewRgb = qRgb(std::clamp(Red + CurrentContrastFactor, 0, 255), \
-        std::clamp(Green + CurrentContrastFactor, 0, 255), \
-        std::clamp(Blue + CurrentContrastFactor, 0, 255)); \
-        Image.setPixelColor(x, y, NewRgb); \
-    } \
-
-void CustomView::ContrastUp()
-{
-    CurrentContrastFactor -= 5;
-    UpdatePixelColors(CONTRAST_LAMBDA);
-}
-
-void CustomView::ContrastDown()
-{
-    CurrentContrastFactor += 5;
-    UpdatePixelColors(CONTRAST_LAMBDA);
 }
