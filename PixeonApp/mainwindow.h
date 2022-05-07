@@ -14,10 +14,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void AddNewImage();
-    void RemoveSelectedImage();
-
-    QBitmap* GetSelectedImage();
+    void AddImage();
+    void RemoveImage();
 
 private:
     Ui::MainWindow *ui;

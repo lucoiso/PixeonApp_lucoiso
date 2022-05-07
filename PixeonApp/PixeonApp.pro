@@ -11,14 +11,18 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    pixeoncustomview.cpp \
     pixeontoolbar.cpp
 
 HEADERS += \
+    HelperFunctions.h \
     mainwindow.h \
+    pixeoncustomview.h \
     pixeontoolbar.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    pixeoncustomview.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

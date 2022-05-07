@@ -1,18 +1,31 @@
 #include "mainwindow.h"
+#include "pixeoncustomview.h"
 #include "pixeontoolbar.h"
-#include "ui_mainwindow.h"
 
-#include <QFileDialog>
-#include <QStandardPaths>
-#include <QGraphicsView>
+#include "qlayout.h"
+#include "ui_mainwindow.h"
+#include "HelperFunctions.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    showMaximized();
 
-    addToolBar(Qt::ToolBarArea::LeftToolBarArea, new PixeonToolbar("Custom PixeonToolbar", this));
+    const auto LayoutCreator = [&] () -> QVBoxLayout*
+        {
+            CustomView* NewCustomView = new CustomView(this);
+            QVBoxLayout* BoxLayout = new QVBoxLayout(NewCustomView);
+            BoxLayout->addWidget(NewCustomView);
+
+            return BoxLayout;
+        };
+
+    ui->tab->setLayout(LayoutCreator());
+    ui->tab_2->setLayout(LayoutCreator());
+
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
@@ -20,29 +33,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::AddNewImage()
+void MainWindow::AddImage()
 {
-    // Work in Progress
-
-    const QString PicturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    const QString FileName = QFileDialog::getOpenFileName(this, QString(), PicturesFolder, "Image File (*.bmp *.png *.jpeg)");
-
-    if (FileName.count() != 0)
-    {
-        QPixmap NewImage(FileName);
-        QGraphicsScene* NewScene = new QGraphicsScene(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
-        NewScene->addPixmap(NewImage.scaled(QSize(ui->graphicsView->width(), ui->graphicsView->height())));
-        ui->graphicsView->setScene(NewScene);
-    }
+    CustomView* NewCustomView = new CustomView(ui->centralwidget);
+    ui->tabWidget->addTab(NewCustomView, QString());
 }
 
-void MainWindow::RemoveSelectedImage()
+void MainWindow::RemoveImage()
 {
-    // TO DO
-}
 
-QBitmap* MainWindow::GetSelectedImage()
-{
-    // TO DO
-    return nullptr;
 }
