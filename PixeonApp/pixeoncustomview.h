@@ -1,5 +1,4 @@
-#ifndef PIXEONCUSTOMVIEW_H
-#define PIXEONCUSTOMVIEW_H
+#pragma once
 
 #include <QWidget>
 
@@ -24,8 +23,17 @@ public:
     void RotateLeft();
     void RotateRight();
 
+    void BrightnessUp();
+    void BrightnessDown();
+
+    void ContrastUp();
+    void ContrastDown();
+
 private:
     Ui::CustomView *ui;
-};
+    QImage OriginalImage;
 
-#endif // PIXEONCUSTOMVIEW_H
+    void UpdateGraphicsView(const QPixmap Image);
+
+    int CurrentBrightnessFactor;
+};

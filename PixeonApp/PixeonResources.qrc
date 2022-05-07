@@ -8,5 +8,9 @@
         <file>Assets/Placeholder.jpeg</file>
         <file>Assets/RotateLeft.png</file>
         <file>Assets/RotateRight.png</file>
+        <file>Assets/BrightDown.png</file>
+        <file>Assets/BrightUp.png</file>
+        <file>Assets/ContrastDown.png</file>
+        <file>Assets/ContrastUp.png</file>
     </qresource>
 </RCC>

@@ -4,18 +4,18 @@
 #include "HelperFunctions.h"
 
 #include <QGraphicsView>
+#include <QRgb>
 
 CustomView::CustomView(QWidget *parent, const QString FileName) :
     QWidget(parent),
     ui(new Ui::CustomView)
+  , CurrentBrightnessFactor(100)
 {
     ui->setupUi(this);
 
     QPixmap NewImage(FileName.count() != 0 ? FileName : ":/Pixeon/Assets/Placeholder.jpeg");
-    QGraphicsScene* NewScene = new QGraphicsScene();
-    NewScene->addPixmap(NewImage.scaled(QSize(parent->width(), parent->height()), Qt::AspectRatioMode::KeepAspectRatioByExpanding));
-    ui->graphicsView->setScene(NewScene);
 
+    UpdateGraphicsView(NewImage);
     ui->horizontalLayout->insertWidget(0, new PixeonToolbar("Custom PixeonToolbar", this));
 }
 
@@ -26,45 +26,101 @@ CustomView::~CustomView()
 
 void CustomView::ChangeImage()
 {
-    const int Height = ui->graphicsView->height();
-    const int Width = ui->graphicsView->width();
-
     const QString ImagePath = Helpers::LoadNewImageFile(this);
     if (ImagePath.count() > 0)
     {
-        QGraphicsScene* NewScene = new QGraphicsScene();
-        NewScene->addPixmap(QPixmap(ImagePath).scaled(QSize(Width, Height), Qt::AspectRatioMode::KeepAspectRatioByExpanding));
-        ui->graphicsView->setScene(NewScene);
-    }
+        OriginalImage = QImage(ImagePath);
+        CurrentBrightnessFactor = 0;
+        UpdateGraphicsView(QPixmap::fromImage(OriginalImage));
+    }    
 }
 
 void CustomView::RemoveImage()
 {
-    const int Height = ui->graphicsView->height();
-    const int Width = ui->graphicsView->width();
+    OriginalImage = QImage();
+    CurrentBrightnessFactor = 0;
+    UpdateGraphicsView(QPixmap(":/Pixeon/Assets/Placeholder.jpeg"));
+}
 
-    QGraphicsScene* NewScene = new QGraphicsScene();
-    NewScene->addPixmap(QPixmap(":/Pixeon/Assets/Placeholder.jpeg").scaled(QSize(Width, Height), Qt::AspectRatioMode::KeepAspectRatioByExpanding));
+void CustomView::UpdateGraphicsView(const QPixmap Image)
+{
+    QGraphicsScene* NewScene = new QGraphicsScene(this);
+    NewScene->addPixmap(Image);
     ui->graphicsView->setScene(NewScene);
 }
 
 void CustomView::ZoomIn()
 {
-    ui->graphicsView->scale(1.25f, 1.25f);
+    if (!OriginalImage.isNull())
+    {
+        ui->graphicsView->scale(1.25f, 1.25f);
+    }
 }
 
 void CustomView::ZoomOut()
 {
-    ui->graphicsView->scale(0.75f, 0.75f);
+    if (!OriginalImage.isNull())
+    {
+        ui->graphicsView->scale(0.75f, 0.75f);
+    }
 }
 
 void CustomView::RotateLeft()
 {
-    ui->graphicsView->rotate(-90);
+    if (!OriginalImage.isNull())
+    {
+        ui->graphicsView->rotate(-90);
+    }
 }
 
 void CustomView::RotateRight()
 {
-    ui->graphicsView->rotate(90);
+    if (!OriginalImage.isNull())
+    {
+        ui->graphicsView->rotate(90);
+    }
 }
 
+void CustomView::BrightnessUp()
+{
+    QImage CurrentImage = OriginalImage;
+    if (!CurrentImage.isNull())
+    {
+        CurrentBrightnessFactor += 5;
+        for (int y = 0; y < CurrentImage.height(); ++y)
+        {
+            for (int x = 0; x < CurrentImage.width(); ++x)
+            {
+                CurrentImage.setPixelColor(x, y, CurrentImage.pixelColor(x, y).lighter(100 + CurrentBrightnessFactor));
+            }
+        }
+
+        UpdateGraphicsView(QPixmap::fromImage(CurrentImage));
+    }
+}
+
+void CustomView::BrightnessDown()
+{
+    QImage CurrentImage = OriginalImage;
+    if (!CurrentImage.isNull())
+    {
+        CurrentBrightnessFactor -= 5;
+        for (int y = 0; y < CurrentImage.height(); ++y)
+        {
+            for (int x = 0; x < CurrentImage.width(); ++x)
+            {
+                CurrentImage.setPixelColor(x, y, CurrentImage.pixelColor(x, y).lighter(100 + CurrentBrightnessFactor));
+            }
+        }
+
+        UpdateGraphicsView(QPixmap::fromImage(CurrentImage));
+    }
+}
+
+void CustomView::ContrastUp()
+{
+}
+
+void CustomView::ContrastDown()
+{
+}
