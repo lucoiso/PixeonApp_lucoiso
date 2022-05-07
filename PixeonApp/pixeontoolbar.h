@@ -9,8 +9,8 @@ class PixeonToolbar : public QToolBar
     Q_OBJECT
 
 public:
-   explicit PixeonToolbar(const QString &title, QWidget *parent = nullptr);
+   explicit PixeonToolbar(const QString& title, QWidget* parent = nullptr);
 
-private:
+protected:
     CustomView* GetParentAsCustomView() const;
 };

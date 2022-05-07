@@ -2,20 +2,20 @@
 #include "pixeoncustomview.h"
 #include "mainwindow.h"
 
-PixeonToolbar::PixeonToolbar(const QString &title, QWidget *parent)
+PixeonToolbar::PixeonToolbar(const QString& title, QWidget* parent)
     : QToolBar(title, parent)
 {
     const QString Prefix = ":/Pixeon/Assets/";
 
     QAction* AddImage = new QAction(QIcon::fromTheme((Prefix + "Add.png")), "Add Image");
     QObject::connect(AddImage, &QAction::triggered, GetParentAsCustomView(), &CustomView::ChangeImage);
-    addAction(AddImage);    
+    addAction(AddImage);
 
     QAction* RemoveImage = new QAction(QIcon::fromTheme((Prefix + "Subtract.png")), "Remove Image");
     QObject::connect(RemoveImage, &QAction::triggered, GetParentAsCustomView(), &CustomView::RemoveImage);
     addAction(RemoveImage);
 
-    addSeparator();    
+    addSeparator();
 
     QAction* ZoomIn = new QAction(QIcon::fromTheme((Prefix + "ZoomIn.png")), "Zoom In");
     QObject::connect(ZoomIn, &QAction::triggered, GetParentAsCustomView(), &CustomView::ZoomIn);

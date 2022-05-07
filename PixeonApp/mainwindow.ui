@@ -35,12 +35,12 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>1</string>
+        <string>Empty</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>2</string>
+        <string>Empty</string>
        </attribute>
       </widget>
      </widget>

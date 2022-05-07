@@ -1,31 +1,18 @@
 #include "mainwindow.h"
 #include "pixeoncustomview.h"
-#include "pixeontoolbar.h"
-
-#include "qlayout.h"
-#include "ui_mainwindow.h"
 #include "HelperFunctions.h"
 
-MainWindow::MainWindow(QWidget *parent)
+#include "ui_mainwindow.h"
+
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     showMaximized();
 
-    const auto LayoutCreator = [&] () -> QVBoxLayout*
-        {
-            CustomView* NewCustomView = new CustomView(this);
-            QVBoxLayout* BoxLayout = new QVBoxLayout();
-            BoxLayout->addWidget(NewCustomView);
-
-            return BoxLayout;
-        };
-
-    ui->tab->setLayout(LayoutCreator());
-    ui->tab_2->setLayout(LayoutCreator());
-
-    ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->clear();
+    ui->tabWidget->addTab(new CustomView(this, ui->tabWidget), "Empty");
 }
 
 MainWindow::~MainWindow()
@@ -35,15 +22,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_AddImage_triggered()
 {
-    ui->tabWidget->addTab(new CustomView(this), QString::number(ui->tabWidget->count() + 1));
+    ui->tabWidget->addTab(new CustomView(this, ui->tabWidget), "Empty");
 }
 
 
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
-    if (ui->tabWidget->count() > 2)
-    {
-        ui->tabWidget->removeTab(index);
-    }
+    ui->tabWidget->removeTab(index);
 }
 

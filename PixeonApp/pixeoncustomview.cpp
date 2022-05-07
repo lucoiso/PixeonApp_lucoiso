@@ -1,14 +1,17 @@
 #include "pixeoncustomview.h"
 #include "pixeontoolbar.h"
-#include "ui_pixeoncustomview.h"
 #include "HelperFunctions.h"
+
+#include "ui_pixeoncustomview.h"
 
 #include <QGraphicsView>
 #include <QRgb>
+#include <QTabWidget>
 
-CustomView::CustomView(QWidget *parent, const QString FileName) :
+CustomView::CustomView(QWidget* parent, QTabWidget* OwnerTab, const QString& FileName) :
     QWidget(parent),
-    ui(new Ui::CustomView)
+    ParentTab(OwnerTab)
+  , ui(new Ui::CustomView)
   , CurrentBrightnessFactor(100)
   , CurrentContrastFactor(0)
 {
@@ -34,6 +37,8 @@ void CustomView::ChangeImage()
         CurrentBrightnessFactor = 100;
         UpdateGraphicsView(QPixmap::fromImage(OriginalImage));
         ui->graphicsView->resetTransform();
+
+        ParentTab->setTabText(ParentTab->currentIndex(), ImagePath);
     }
 }
 
@@ -43,6 +48,8 @@ void CustomView::RemoveImage()
     CurrentBrightnessFactor = 100;
     UpdateGraphicsView(QPixmap(":/Pixeon/Assets/Placeholder.jpeg"));
     ui->graphicsView->resetTransform();
+
+    ParentTab->setTabText(ParentTab->currentIndex(), "Empty");
 }
 
 void CustomView::UpdateGraphicsView(const QPixmap Image)
@@ -127,8 +134,8 @@ void CustomView::BrightnessDown()
         int Red, Green, Blue; \
         NewPixelColor.getRgb(&Red, &Green, &Blue); \
         const QRgb NewRgb = qRgb(std::clamp(Red + CurrentContrastFactor, 0, 255), \
-                                 std::clamp(Green + CurrentContrastFactor, 0, 255), \
-                                 std::clamp(Blue + CurrentContrastFactor, 0, 255)); \
+        std::clamp(Green + CurrentContrastFactor, 0, 255), \
+        std::clamp(Blue + CurrentContrastFactor, 0, 255)); \
         Image.setPixelColor(x, y, NewRgb); \
     } \
 
