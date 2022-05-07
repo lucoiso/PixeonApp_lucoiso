@@ -1,6 +1,6 @@
 #include "pixeoncustomview.h"
 #include "pixeontoolbar.h"
-#include "ui_customview.h"
+#include "ui_pixeoncustomview.h"
 #include "HelperFunctions.h"
 
 #include <QGraphicsView>
@@ -10,6 +10,7 @@ CustomView::CustomView(QWidget *parent, const QString FileName) :
     QWidget(parent),
     ui(new Ui::CustomView)
   , CurrentBrightnessFactor(100)
+  , CurrentContrastFactor(0)
 {
     ui->setupUi(this);
 
@@ -30,16 +31,18 @@ void CustomView::ChangeImage()
     if (ImagePath.count() > 0)
     {
         OriginalImage = QImage(ImagePath);
-        CurrentBrightnessFactor = 0;
+        CurrentBrightnessFactor = 100;
         UpdateGraphicsView(QPixmap::fromImage(OriginalImage));
-    }    
+        ui->graphicsView->resetTransform();
+    }
 }
 
 void CustomView::RemoveImage()
 {
     OriginalImage = QImage();
-    CurrentBrightnessFactor = 0;
+    CurrentBrightnessFactor = 100;
     UpdateGraphicsView(QPixmap(":/Pixeon/Assets/Placeholder.jpeg"));
+    ui->graphicsView->resetTransform();
 }
 
 void CustomView::UpdateGraphicsView(const QPixmap Image)
@@ -81,46 +84,62 @@ void CustomView::RotateRight()
     }
 }
 
-void CustomView::BrightnessUp()
+void CustomView::UpdatePixelColors(std::function<void(QImage&, const int, const int)> Predicate)
 {
-    QImage CurrentImage = OriginalImage;
-    if (!CurrentImage.isNull())
+    QImage NewImage = OriginalImage.convertToFormat(QImage::Format_ARGB32);
+    if (!NewImage.isNull())
     {
-        CurrentBrightnessFactor += 5;
-        for (int y = 0; y < CurrentImage.height(); ++y)
+        for (int y = 0; y < NewImage.height(); ++y)
         {
-            for (int x = 0; x < CurrentImage.width(); ++x)
+            for (int x = 0; x < NewImage.width(); ++x)
             {
-                CurrentImage.setPixelColor(x, y, CurrentImage.pixelColor(x, y).lighter(100 + CurrentBrightnessFactor));
+                Predicate(NewImage, x, y);
             }
         }
 
-        UpdateGraphicsView(QPixmap::fromImage(CurrentImage));
+        UpdateGraphicsView(QPixmap::fromImage(NewImage));
     }
+}
+
+#define BRIGHTNESS_LAMBDA \
+    [&] (QImage& Image, const int x, const int y) -> void \
+    { \
+        Image.setPixelColor(x, y, Image.pixelColor(x, y).lighter(CurrentBrightnessFactor)); \
+    } \
+
+void CustomView::BrightnessUp()
+{
+    CurrentBrightnessFactor += 5;
+    UpdatePixelColors(BRIGHTNESS_LAMBDA);
 }
 
 void CustomView::BrightnessDown()
 {
-    QImage CurrentImage = OriginalImage;
-    if (!CurrentImage.isNull())
-    {
-        CurrentBrightnessFactor -= 5;
-        for (int y = 0; y < CurrentImage.height(); ++y)
-        {
-            for (int x = 0; x < CurrentImage.width(); ++x)
-            {
-                CurrentImage.setPixelColor(x, y, CurrentImage.pixelColor(x, y).lighter(100 + CurrentBrightnessFactor));
-            }
-        }
-
-        UpdateGraphicsView(QPixmap::fromImage(CurrentImage));
-    }
+    CurrentBrightnessFactor -= 5;
+    ;
+    UpdatePixelColors(BRIGHTNESS_LAMBDA);
 }
+
+#define CONTRAST_LAMBDA \
+    [&] (QImage& Image, const int x, const int y) -> void \
+    { \
+        QColor NewPixelColor = Image.pixelColor(x, y); \
+        int Red, Green, Blue; \
+        NewPixelColor.getRgb(&Red, &Green, &Blue); \
+        const QRgb NewRgb = qRgb(std::clamp(Red + CurrentContrastFactor, 0, 255), \
+                                 std::clamp(Green + CurrentContrastFactor, 0, 255), \
+                                 std::clamp(Blue + CurrentContrastFactor, 0, 255)); \
+        Image.setPixelColor(x, y, NewRgb); \
+    } \
 
 void CustomView::ContrastUp()
 {
+    CurrentContrastFactor -= 5;
+    UpdatePixelColors(CONTRAST_LAMBDA);
 }
 
 void CustomView::ContrastDown()
 {
+    CurrentContrastFactor += 5;
+    UpdatePixelColors(CONTRAST_LAMBDA);
 }
