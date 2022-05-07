@@ -18,6 +18,9 @@ public:
     void ChangeImage();
     void RemoveImage();
 
+    void ZoomIn();
+    void ZoomOut();
+
 private:
     Ui::CustomView *ui;
 };

@@ -48,3 +48,12 @@ void CustomView::RemoveImage()
     ui->graphicsView->setScene(NewScene);
 }
 
+void CustomView::ZoomIn()
+{
+    ui->graphicsView->scale(1.25f, 1.25f);
+}
+
+void CustomView::ZoomOut()
+{
+    ui->graphicsView->scale(0.75f, 0.75f);
+}

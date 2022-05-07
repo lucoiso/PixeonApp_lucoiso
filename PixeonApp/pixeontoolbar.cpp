@@ -15,9 +15,15 @@ PixeonToolbar::PixeonToolbar(const QString &title, QWidget *parent)
     QObject::connect(RemoveImage, &QAction::triggered, GetParentAsCustomView(), &CustomView::RemoveImage);
     addAction(RemoveImage);
 
-    addSeparator();
-    addAction(new QAction(QIcon::fromTheme((Prefix + "ZoomIn.png")), "Zoom In"));
-    addAction(new QAction(QIcon::fromTheme((Prefix + "ZoomOut.png")), "Zoom Out"));
+    addSeparator();    
+
+    QAction* ZoomIn = new QAction(QIcon::fromTheme((Prefix + "ZoomIn.png")), "Zoom In");
+    QObject::connect(ZoomIn, &QAction::triggered, GetParentAsCustomView(), &CustomView::ZoomIn);
+    addAction(ZoomIn);
+
+    QAction* ZoomOut = new QAction(QIcon::fromTheme((Prefix + "ZoomOut.png")), "Zoom Out");
+    QObject::connect(ZoomOut, &QAction::triggered, GetParentAsCustomView(), &CustomView::ZoomOut);
+    addAction(ZoomOut);
 
     setOrientation(Qt::Vertical);
 }
