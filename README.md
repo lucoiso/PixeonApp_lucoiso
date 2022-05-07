@@ -2,7 +2,7 @@
 
 App developed for Pixeon Challenge. The objective is to create a Image Viewer app using Qt Creator.
 
-![image](https://user-images.githubusercontent.com/77353979/167263499-cd722fd1-ceda-4806-bd3c-9756d59a7483.png)
+![image](https://user-images.githubusercontent.com/77353979/167266484-7194550e-636b-4d04-996b-907ea56d189f.png)
 
 ## Documentation
 
