@@ -38,3 +38,12 @@ void MainWindow::on_AddImage_triggered()
     ui->tabWidget->addTab(new CustomView(this), QString::number(ui->tabWidget->count() + 1));
 }
 
+
+void MainWindow::on_tabWidget_tabCloseRequested(int index)
+{
+    if (ui->tabWidget->count() > 2)
+    {
+        ui->tabWidget->removeTab(index);
+    }
+}
+
