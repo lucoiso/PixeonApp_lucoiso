@@ -8,7 +8,7 @@
 #include <QRgb>
 #include <QTabWidget>
 
-PixeonCustomView::PixeonCustomView(QWidget* parent, QTabWidget* OwnerTab, const QString& FileName) :
+PixeonCustomView::PixeonCustomView(QTabWidget* OwnerTab, QWidget* parent, const QString& FileName) :
     QWidget(parent),
     ParentTab(OwnerTab)
   , ui(new Ui::PixeonCustomView)

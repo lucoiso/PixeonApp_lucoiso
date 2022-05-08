@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent)
     showMaximized();
 
     ui->tabWidget->clear();
-    ui->tabWidget->addTab(new PixeonCustomView(this, ui->tabWidget), "Empty");
+    ui->tabWidget->addTab(new PixeonCustomView(ui->tabWidget, this),"Empty");
 }
 
 MainWindow::~MainWindow()
@@ -22,7 +22,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_AddImage_triggered()
 {
-    ui->tabWidget->addTab(new PixeonCustomView(this, ui->tabWidget), "Empty");
+    ui->tabWidget->addTab(new PixeonCustomView(ui->tabWidget, this), "Empty");
 }
 
 

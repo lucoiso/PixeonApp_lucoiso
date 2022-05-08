@@ -16,6 +16,7 @@ namespace Helpers
         return QFileDialog::getOpenFileName(Parent, QString(), PicturesFolder, "Image File (*.bmp *.png *.jpeg)");
     }
 
+    /* Update the GraphicsView with the passed QPixMap */
     static void UpdateGraphicsView(QWidget* Parent, QGraphicsView* View, const QPixmap Image)
     {
         QGraphicsScene* NewScene = new QGraphicsScene(Parent);
