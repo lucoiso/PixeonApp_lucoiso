@@ -14,15 +14,13 @@ App developed for Pixeon Challenge. The objective is to create a Image Viewer ap
 
 **Técnicas utilizadas:**
 * Utilização de macros para evitar repetição
-* Utilização de features de C++ moderno como lambdas e delegates como parametro através do uso de std::function
-* Projeto pensado em modularidade: Utilização de uma biblioteca extra de funções estáticas e delegate como parametro
+* Utilização de features de C++ moderno como lambdas e delegates como parametro
+* Utilização de prints via qDebug()
 
 **Possíveis melhorias futuras:**
 * Melhorias no visual
-* Melhor aplicação de conceitos de modularidade
 * Mais opções em menu de janela
 * Mais opções em menu de gerenciamento de imagem
-* Adição de comentários para manutenção e entendimento por terceiros.
 
 **Avaliação do resultado:**
 * Acredito que alcancei os objetivos propostos de forma simples e prática. O aplicativo, além de funcional, possui fácil manutenção e visibilidade.
