@@ -11,6 +11,7 @@ App developed for Pixeon Challenge. The objective is to create a Image Viewer ap
 
 **Dificuldades encontradas:**
 * O fato de não ter utilizado o Qt Creator por um bom tempo me exigiu algumas pesquisas para APIs que foram utilizadas.
+* Por alguma razão, minhas tentativas de multithreading falharam e não descobri o motivo nas tentativas. Tentei utilizar QThread, std::thread e até criar um novo QObject para chamar uma função em uma thread separada, mas abort() era sempre chamado ao iniciar a iteração nos pixels. O multithreading seria implementado para evitar o congelamento da GUI ao modificar uma imagem muito grande.
 
 **Técnicas utilizadas:**
 * Utilização de macros para evitar repetição
@@ -21,6 +22,7 @@ App developed for Pixeon Challenge. The objective is to create a Image Viewer ap
 * Melhorias no visual
 * Mais opções em menu de janela
 * Mais opções em menu de gerenciamento de imagem
+* Multithreading
 
 **Avaliação do resultado:**
 * Acredito que alcancei os objetivos propostos de forma simples e prática. O aplicativo, além de funcional, possui fácil manutenção e visibilidade.
