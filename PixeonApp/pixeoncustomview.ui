@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CustomView</class>
- <widget class="QWidget" name="CustomView">
+ <class>PixeonCustomView</class>
+ <widget class="QWidget" name="PixeonCustomView">
   <property name="geometry">
    <rect>
     <x>0</x>

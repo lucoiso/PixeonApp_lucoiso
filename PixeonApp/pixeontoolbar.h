@@ -2,7 +2,7 @@
 
 #include <QToolBar>
 
-class CustomView;
+class PixeonCustomView;
 
 class PixeonToolbar : public QToolBar
 {
@@ -12,5 +12,5 @@ public:
    explicit PixeonToolbar(const QString& title, QWidget* parent = nullptr);
 
 protected:
-    CustomView* GetParentAsCustomView() const;
+    PixeonCustomView* GetParentAsCustomView() const;
 };

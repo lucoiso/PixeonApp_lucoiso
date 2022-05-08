@@ -6,16 +6,18 @@ class QTabWidget;
 
 namespace Ui
 {
-    class CustomView;
+    class PixeonCustomView;
 }
 
-class CustomView : public QWidget
+class PixeonCustomView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CustomView(QWidget* parent = nullptr, QTabWidget* TabOwner = nullptr, const QString& FileName = QString());
-    ~CustomView();
+    // Note that this widget have both parent and TabOwner: For some reason, the casting to QTabWidget from QWidget was failing,
+    // so i decided do duplicate the reference and use the main window as parent
+    explicit PixeonCustomView(QWidget* parent = nullptr, QTabWidget* TabOwner = nullptr, const QString& FileName = QString());
+    ~PixeonCustomView();
 
     void ChangeImage();
     void RemoveImage();
@@ -40,7 +42,7 @@ protected:
     QTabWidget* ParentTab;
 
 private:
-    Ui::CustomView* ui;
+    Ui::PixeonCustomView* ui;
     QImage OriginalImage;
 
     int CurrentBrightnessFactor;
