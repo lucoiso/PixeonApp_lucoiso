@@ -15,13 +15,14 @@ PixeonCustomView::PixeonCustomView(QWidget* parent, QTabWidget* OwnerTab, const 
   , CurrentBrightnessFactor(100)
   , CurrentContrastFactor(0)
 {
-    assert(OwnerTab != nullptr); // This widget is intended to be used with a TabWidget. Ensure that you pass the owner tab.
+    // This widget is intended to be used with a TabWidget. Ensure that you pass the owner tab.
+    assert(OwnerTab != nullptr);
 
     ui->setupUi(this);
 
     QPixmap NewImage(FileName.count() != 0 ? FileName : ":/Pixeon/Assets/Placeholder.jpeg");
 
-    UpdateGraphicsView(NewImage);
+    Helpers::UpdateGraphicsView(this, ui->graphicsView, NewImage);
     ui->horizontalLayout->insertWidget(0, new PixeonToolbar("Custom PixeonToolbar", this));
 }
 
@@ -37,32 +38,31 @@ void PixeonCustomView::ChangeImage()
     {
         OriginalImage = QImage(ImagePath);
         CurrentBrightnessFactor = 100;
-        UpdateGraphicsView(QPixmap::fromImage(OriginalImage));
+        Helpers::UpdateGraphicsView(this, ui->graphicsView, QPixmap::fromImage(OriginalImage));
         ui->graphicsView->resetTransform();
 
         ParentTab->setTabText(ParentTab->currentIndex(), ImagePath);
+
+        qDebug() << __func__ << "- New image loaded:" << ImagePath;
     }
 }
 
 void PixeonCustomView::RemoveImage()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     OriginalImage = QImage();
     CurrentBrightnessFactor = 100;
-    UpdateGraphicsView(QPixmap(":/Pixeon/Assets/Placeholder.jpeg"));
+    Helpers::UpdateGraphicsView(this, ui->graphicsView, QPixmap(":/Pixeon/Assets/Placeholder.jpeg"));
     ui->graphicsView->resetTransform();
 
     ParentTab->setTabText(ParentTab->currentIndex(), "Empty");
 }
 
-void PixeonCustomView::UpdateGraphicsView(const QPixmap Image)
-{
-    QGraphicsScene* NewScene = new QGraphicsScene(this);
-    NewScene->addPixmap(Image);
-    ui->graphicsView->setScene(NewScene);
-}
-
 void PixeonCustomView::ZoomIn()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     if (!OriginalImage.isNull())
     {
         ui->graphicsView->scale(1.25f, 1.25f);
@@ -71,6 +71,8 @@ void PixeonCustomView::ZoomIn()
 
 void PixeonCustomView::ZoomOut()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     if (!OriginalImage.isNull())
     {
         ui->graphicsView->scale(0.75f, 0.75f);
@@ -79,6 +81,8 @@ void PixeonCustomView::ZoomOut()
 
 void PixeonCustomView::RotateLeft()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     if (!OriginalImage.isNull())
     {
         ui->graphicsView->rotate(-90);
@@ -87,6 +91,8 @@ void PixeonCustomView::RotateLeft()
 
 void PixeonCustomView::RotateRight()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     if (!OriginalImage.isNull())
     {
         ui->graphicsView->rotate(90);
@@ -107,30 +113,40 @@ void PixeonCustomView::RotateRight()
 
 void PixeonCustomView::BrightnessUp()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     CurrentBrightnessFactor += 5;
     UpdatePixelColors(COLORUPDATE);
 }
 
 void PixeonCustomView::BrightnessDown()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     CurrentBrightnessFactor -= 5;
     UpdatePixelColors(COLORUPDATE);
 }
 
 void PixeonCustomView::ContrastUp()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     CurrentContrastFactor -= 5;
     UpdatePixelColors(COLORUPDATE);
 }
 
 void PixeonCustomView::ContrastDown()
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     CurrentContrastFactor += 5;
     UpdatePixelColors(COLORUPDATE);
 }
 
 void PixeonCustomView::UpdatePixelColors(std::function<void(QImage&, const int, const int)> Function)
 {
+    qDebug() << ParentTab->tabText(ParentTab->currentIndex()) << "-" << __func__;
+
     QImage NewImage = OriginalImage.convertToFormat(QImage::Format_ARGB32);
     if (!NewImage.isNull())
     {
@@ -142,7 +158,7 @@ void PixeonCustomView::UpdatePixelColors(std::function<void(QImage&, const int, 
             }
         }
 
-        UpdateGraphicsView(QPixmap::fromImage(NewImage));
+        Helpers::UpdateGraphicsView(this, ui->graphicsView, QPixmap::fromImage(NewImage));
     }
 }
 #undef COLORUPDATE

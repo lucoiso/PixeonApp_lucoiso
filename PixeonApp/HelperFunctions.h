@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QGraphicsView>
+#include <QGraphicsScene>
 #include <QWidget>
 #include <QString>
 #include <QStandardPaths>
@@ -12,5 +14,12 @@ namespace Helpers
     {
         const QString PicturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
         return QFileDialog::getOpenFileName(Parent, QString(), PicturesFolder, "Image File (*.bmp *.png *.jpeg)");
+    }
+
+    static void UpdateGraphicsView(QWidget* Parent, QGraphicsView* View, const QPixmap Image)
+    {
+        QGraphicsScene* NewScene = new QGraphicsScene(Parent);
+        NewScene->addPixmap(Image);
+        View->setScene(NewScene);
     }
 }

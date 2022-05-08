@@ -35,8 +35,6 @@ public:
     void ContrastDown();
 
 protected:
-    void UpdateGraphicsView(const QPixmap Image);
-
     void UpdatePixelColors(std::function<void(QImage&, const int, const int)> Function);
 
     QTabWidget* ParentTab;

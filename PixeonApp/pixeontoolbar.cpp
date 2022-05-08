@@ -5,57 +5,40 @@
 PixeonToolbar::PixeonToolbar(const QString& title, QWidget* parent)
     : QToolBar(title, parent)
 {
-    assert(GetParentAsCustomView() != nullptr); // This toolbar is intended to be used inside a Custom View widget, ensure that you pass a valid PixeonCustomView as parent
+    // This toolbar is intended to be used inside a Custom View widget, ensure that you pass a valid PixeonCustomView as parent
+    assert(GetParentAsCustomView() != nullptr);
 
     const QString Prefix = ":/Pixeon/Assets/";
 
-    QAction* AddImage = new QAction(QIcon::fromTheme((Prefix + "Add.png")), "Add Image");
-    QObject::connect(AddImage, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::ChangeImage);
-    addAction(AddImage);
+#define ADD_NEW_ACTION(PropertyName, ImageName, TooltipStr, Function) \
+    QAction* PropertyName = new QAction(QIcon::fromTheme((Prefix + ImageName)), TooltipStr); \
+    QObject::connect(PropertyName, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::Function); \
+    addAction(PropertyName)
 
-    QAction* RemoveImage = new QAction(QIcon::fromTheme((Prefix + "Subtract.png")), "Remove Image");
-    QObject::connect(RemoveImage, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::RemoveImage);
-    addAction(RemoveImage);
-
-    addSeparator();
-
-    QAction* ZoomIn = new QAction(QIcon::fromTheme((Prefix + "ZoomIn.png")), "Zoom In");
-    QObject::connect(ZoomIn, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::ZoomIn);
-    addAction(ZoomIn);
-
-    QAction* ZoomOut = new QAction(QIcon::fromTheme((Prefix + "ZoomOut.png")), "Zoom Out");
-    QObject::connect(ZoomOut, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::ZoomOut);
-    addAction(ZoomOut);
+    ADD_NEW_ACTION(AddImage, "Add.png", "Add Image", ChangeImage);
+    ADD_NEW_ACTION(RemoveImage, "Subtract.png", "Remove Image", RemoveImage);
 
     addSeparator();
 
-    QAction* RotateLeft = new QAction(QIcon::fromTheme((Prefix + "RotateLeft.png")), "Rotate Left");
-    QObject::connect(RotateLeft, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::RotateLeft);
-    addAction(RotateLeft);
-
-    QAction* RotateRight = new QAction(QIcon::fromTheme((Prefix + "RotateRight.png")), "Rotate Right");
-    QObject::connect(RotateRight, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::RotateRight);
-    addAction(RotateRight);
+    ADD_NEW_ACTION(ZoomIn, "ZoomIn.png", "Zoom In", ZoomIn);
+    ADD_NEW_ACTION(ZoomOut, "ZoomOut.png", "Zoom Out", ZoomOut);
 
     addSeparator();
 
-    QAction* BrightUp = new QAction(QIcon::fromTheme((Prefix + "BrightUp.png")), "Brightness Up");
-    QObject::connect(BrightUp, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::BrightnessUp);
-    addAction(BrightUp);
-
-    QAction* BrightDown = new QAction(QIcon::fromTheme((Prefix + "BrightDown.png")), "Brightness Down");
-    QObject::connect(BrightDown, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::BrightnessDown);
-    addAction(BrightDown);
+    ADD_NEW_ACTION(RotateLeft, "RotateLeft.png", "Rotate Left", RotateLeft);
+    ADD_NEW_ACTION(RotateRight, "RotateRight.png", "Rotate Right", RotateRight);
 
     addSeparator();
 
-    QAction* ConstrastUp = new QAction(QIcon::fromTheme((Prefix + "ContrastUp.png")), "Contrast Up");
-    QObject::connect(ConstrastUp, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::ContrastUp);
-    addAction(ConstrastUp);
+    ADD_NEW_ACTION(BrightUp, "BrightUp.png", "Brightness Up", BrightnessUp);
+    ADD_NEW_ACTION(BrightDown, "BrightDown.png", "Brightness Down", BrightnessDown);
 
-    QAction* ConstrastDown = new QAction(QIcon::fromTheme((Prefix + "ContrastDown.png")), "Contrast Down");
-    QObject::connect(ConstrastDown, &QAction::triggered, GetParentAsCustomView(), &PixeonCustomView::ContrastDown);
-    addAction(ConstrastDown);
+    addSeparator();
+
+    ADD_NEW_ACTION(ContrastUp, "ContrastUp.png", "Contrast Up", ContrastUp);
+    ADD_NEW_ACTION(ContrastDown, "ContrastDown.png", "Contrast Down", ContrastDown);
+
+#undef ADD_NEW_ACTION
 
     setOrientation(Qt::Vertical);
 }
